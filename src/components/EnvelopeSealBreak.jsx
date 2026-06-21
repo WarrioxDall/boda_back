@@ -2,15 +2,14 @@ import { motion } from 'framer-motion';
 import EnvelopeMoonSeal from '../icons/EnvelopeMoonSeal';
 
 /** Sello de cera que tiembla, se parte en dos y gira al abrir el sobre */
-export default function EnvelopeSealBreak({ isOpening, top }) {
+export default function EnvelopeSealBreak({ isOpening }) {
   return (
     <div
-      className="absolute left-1/2 z-50"
-      style={{ top, transform: 'translate(-50%, -50%)' }}
+      className="absolute left-1/2 top-9 z-50 -translate-x-1/2 -translate-y-1/2 md:top-12"
       aria-hidden="true"
     >
       <motion.div
-        className="relative h-14 w-14 md:h-16 md:w-16"
+        className="relative h-12 w-12 md:h-16 md:w-16"
         animate={isOpening ? { rotate: [0, -7, 7, -5, 5, 0] } : { rotate: 0 }}
         transition={isOpening ? { duration: 0.5, ease: 'easeInOut' } : { duration: 0.2 }}
       >
@@ -28,7 +27,7 @@ export default function EnvelopeSealBreak({ isOpening, top }) {
               : { duration: 0.2 }
           }
         >
-          <EnvelopeMoonSeal className="h-14 w-14 md:h-16 md:w-16 drop-shadow-[0_3px_10px_rgba(61,53,48,0.4)]" />
+          <EnvelopeMoonSeal className="h-12 w-12 drop-shadow-[0_3px_10px_rgba(61,53,48,0.4)] md:h-16 md:w-16" />
         </motion.div>
 
         <motion.div
@@ -45,7 +44,7 @@ export default function EnvelopeSealBreak({ isOpening, top }) {
               : { duration: 0.2 }
           }
         >
-          <EnvelopeMoonSeal className="h-14 w-14 md:h-16 md:w-16 drop-shadow-[0_3px_10px_rgba(61,53,48,0.4)]" />
+          <EnvelopeMoonSeal className="h-12 w-12 drop-shadow-[0_3px_10px_rgba(61,53,48,0.4)] md:h-16 md:w-16" />
         </motion.div>
 
         <motion.div

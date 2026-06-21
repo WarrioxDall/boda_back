@@ -7,10 +7,6 @@ const DRAGON_QUOTE =
   'Durante años, un dragón recorrió el mundo buscando algo más brillante que el fuego. Una noche encontró la luna y decidió quedarse para siempre.';
 
 const OPEN_DURATION = 4200;
-
-const ENVELOPE_BODY_PT = 'pt-36';
-const FLAP_HEIGHT = 'h-[5rem]';
-const MOON_TOP = '3rem';
 const WHATSAPP_URL =
   'https://wa.me/573024562648?text=' +
   encodeURIComponent('Hola, no encuentro mi nombre en la lista de invitados.');
@@ -56,7 +52,7 @@ export default function Envelope({ onOpen, disabled, defaultName = '' }) {
 
   return (
     <motion.div
-      className="relative mx-auto w-full max-w-lg md:max-w-xl"
+      className="relative mx-auto w-full max-w-[19rem] md:max-w-lg lg:max-w-xl"
       style={{ perspective: '1600px' }}
       animate={
         shake
@@ -88,14 +84,14 @@ export default function Envelope({ onOpen, disabled, defaultName = '' }) {
       <div className="relative" style={{ transformStyle: 'preserve-3d' }}>
         {/* Pliegues laterales del sobre */}
         <div
-          className="pointer-events-none absolute bottom-0 left-0 top-[5rem] z-[5] w-[48%] opacity-[0.18]"
+          className="pointer-events-none absolute bottom-0 left-0 top-16 z-[5] w-[48%] opacity-[0.18] md:top-20"
           style={{
             clipPath: 'polygon(0 0, 100% 45%, 0 100%)',
             background: 'linear-gradient(135deg, #8b7355, transparent)',
           }}
         />
         <div
-          className="pointer-events-none absolute bottom-0 right-0 top-[5rem] z-[5] w-[48%] opacity-[0.18]"
+          className="pointer-events-none absolute bottom-0 right-0 top-16 z-[5] w-[48%] opacity-[0.18] md:top-20"
           style={{
             clipPath: 'polygon(100% 0, 0 45%, 100% 100%)',
             background: 'linear-gradient(225deg, #8b7355, transparent)',
@@ -104,9 +100,8 @@ export default function Envelope({ onOpen, disabled, defaultName = '' }) {
 
         {/* Carta interior — emerge desde dentro del sobre */}
         <motion.div
-          className="absolute inset-x-5 z-[15] mx-auto rounded-md border border-[#e8dfd2] bg-gradient-to-b from-[#fffcf8] to-[#f5efe6] px-5 py-5 shadow-[0_6px_24px_rgba(61,53,48,0.2)]"
+          className="absolute inset-x-4 top-[3.65rem] z-[15] mx-auto rounded-md border border-[#e8dfd2] bg-gradient-to-b from-[#fffcf8] to-[#f5efe6] px-4 py-4 shadow-[0_6px_24px_rgba(61,53,48,0.2)] md:inset-x-5 md:top-[4.75rem] md:px-5 md:py-5"
           style={{
-            top: '4.75rem',
             transformOrigin: 'center bottom',
             transformStyle: 'preserve-3d',
           }}
@@ -139,7 +134,7 @@ export default function Envelope({ onOpen, disabled, defaultName = '' }) {
 
         {/* Cuerpo del sobre */}
         <div
-          className={`relative z-10 min-h-[22rem] overflow-hidden rounded-lg border border-[#ddd2c4]/90 bg-gradient-to-b from-[#faf7f2]/96 via-[#f3ece3]/94 to-[#ebe3d8]/92 px-6 pb-10 md:min-h-[24rem] ${ENVELOPE_BODY_PT} shadow-[0_10px_36px_rgba(61,53,48,0.18),inset_0_1px_0_rgba(255,255,255,0.85)] backdrop-blur-sm`}
+          className="relative z-10 min-h-[18.5rem] overflow-hidden rounded-lg border border-[#ddd2c4]/90 bg-gradient-to-b from-[#faf7f2]/96 via-[#f3ece3]/94 to-[#ebe3d8]/92 px-4 pb-7 pt-24 shadow-[0_10px_36px_rgba(61,53,48,0.18),inset_0_1px_0_rgba(255,255,255,0.85)] backdrop-blur-sm md:min-h-[24rem] md:px-6 md:pb-10 md:pt-36"
           style={{ transformStyle: 'preserve-3d' }}
         >
           <div
@@ -158,18 +153,18 @@ export default function Envelope({ onOpen, disabled, defaultName = '' }) {
                 transition={{ duration: 0.3, delay: 0.75 }}
                 className="relative z-10"
               >
-                <p className="mb-6 text-center text-lg font-medium italic leading-relaxed text-[#3d3530] md:text-xl">
+                <p className="mb-4 text-center text-base font-medium italic leading-snug text-[#3d3530] md:mb-6 md:text-lg md:leading-relaxed md:text-xl">
                   {DRAGON_QUOTE}
                 </p>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
                   <input
                     type="text"
                     value={nombre}
                     onChange={(e) => setNombre(e.target.value)}
                     placeholder="Escribe tu nombre completo"
                     disabled={disabled || loading || isOpening}
-                    className="w-full border-b border-[#c4b5a0] bg-white/50 px-2 py-2.5 text-center text-lg italic text-[#3d3530] placeholder:text-[#8b7355]/45 focus:border-[#a88962] focus:outline-none disabled:opacity-50"
+                    className="w-full border-b border-[#c4b5a0] bg-white/50 px-2 py-2 text-center text-base italic text-[#3d3530] placeholder:text-[#8b7355]/45 focus:border-[#a88962] focus:outline-none disabled:opacity-50 md:py-2.5 md:text-lg"
                     autoComplete="name"
                   />
 
@@ -192,7 +187,7 @@ export default function Envelope({ onOpen, disabled, defaultName = '' }) {
                   <button
                     type="submit"
                     disabled={disabled || loading || isOpening || !nombre.trim()}
-                    className="mx-auto block rounded-full border border-[#d4c4ae] bg-gradient-to-r from-[#f5efe6] to-[#ebe0d0] px-10 py-3 text-base font-medium italic text-[#4a4038] shadow-[0_3px_14px_rgba(139,115,85,0.2)] transition hover:from-[#faf5ee] hover:to-[#f0e6d8] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="mx-auto block rounded-full border border-[#d4c4ae] bg-gradient-to-r from-[#f5efe6] to-[#ebe0d0] px-8 py-2.5 text-sm font-medium italic text-[#4a4038] shadow-[0_3px_14px_rgba(139,115,85,0.2)] transition hover:from-[#faf5ee] hover:to-[#f0e6d8] disabled:cursor-not-allowed disabled:opacity-40 md:px-10 md:py-3 md:text-base"
                   >
                     {loading ? 'Verificando…' : 'Abrir invitación'}
                   </button>
@@ -204,7 +199,7 @@ export default function Envelope({ onOpen, disabled, defaultName = '' }) {
 
         {/* Solapa triangular — apertura en 3D más pausada y realista */}
         <motion.div
-          className={`absolute left-0 right-0 top-0 z-30 origin-top ${FLAP_HEIGHT}`}
+          className="absolute left-0 right-0 top-0 z-30 h-16 origin-top md:h-20"
           style={{ transformStyle: 'preserve-3d', backfaceVisibility: 'hidden' }}
           animate={
             isOpening
@@ -233,14 +228,13 @@ export default function Envelope({ onOpen, disabled, defaultName = '' }) {
           />
         </motion.div>
 
-        <EnvelopeSealBreak isOpening={isOpening} top={MOON_TOP} />
+        <EnvelopeSealBreak isOpening={isOpening} />
 
         {isOpening &&
           [0, 1, 2, 3, 4, 5].map((i) => (
             <motion.div
               key={i}
-              className="pointer-events-none absolute left-1/2 z-50 h-1.5 w-1.5 rounded-full bg-[#faf7f2]"
-              style={{ top: MOON_TOP }}
+              className="pointer-events-none absolute left-1/2 top-9 z-50 h-1.5 w-1.5 rounded-full bg-[#faf7f2] md:top-12"
               initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
               animate={{
                 opacity: [0, 0, 1, 0],
