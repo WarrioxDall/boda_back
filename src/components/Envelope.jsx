@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { validateGuest } from '../api/client';
 import EnvelopeSealBreak from './EnvelopeSealBreak';
@@ -19,6 +19,13 @@ export default function Envelope({ onOpen, disabled, defaultName = '' }) {
   const [loading, setLoading] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
   const [shake, setShake] = useState(false);
+  const nameInputRef = useRef(null);
+
+  useEffect(() => {
+    if (disabled || isOpening) return;
+    const timer = setTimeout(() => nameInputRef.current?.focus(), 150);
+    return () => clearTimeout(timer);
+  }, [disabled, isOpening]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -161,6 +168,7 @@ export default function Envelope({ onOpen, disabled, defaultName = '' }) {
 
                 <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
                   <input
+                    ref={nameInputRef}
                     type="text"
                     value={nombre}
                     onChange={(e) => setNombre(e.target.value)}
@@ -168,6 +176,7 @@ export default function Envelope({ onOpen, disabled, defaultName = '' }) {
                     disabled={disabled || loading || isOpening}
                     className="w-full border-b border-[#c4b5a0] bg-white/50 px-2 py-2 text-center text-base italic text-[#3d3530] placeholder:text-[#8b7355]/45 focus:border-[#a88962] focus:outline-none disabled:opacity-50 md:py-2.5 md:text-lg"
                     autoComplete="name"
+                    autoFocus
                   />
 
                   {error && (
