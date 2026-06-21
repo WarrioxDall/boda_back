@@ -12,7 +12,7 @@ export default function App() {
 
   useEffect(() => {
     if (!loading && guest && envelopeSeen) {
-      setPhase((current) => (current === 'intro' ? 'invitation' : current));
+      setPhase('invitation');
     }
   }, [loading, guest, envelopeSeen]);
 

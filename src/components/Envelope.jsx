@@ -41,7 +41,9 @@ export default function Envelope({ onOpen, disabled, defaultName = '' }) {
       setError(
         err.status === 404
           ? 'No encontramos tu nombre en nuestra lista. Revisa la ortografía o contáctanos.'
-          : 'Ocurrió un error. Intenta de nuevo.'
+          : err.status === 409
+            ? err.message
+            : 'Ocurrió un error. Intenta de nuevo.'
       );
       setShowWhatsApp(err.status === 404);
       setTimeout(() => setShake(false), 500);

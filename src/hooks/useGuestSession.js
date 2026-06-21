@@ -6,12 +6,13 @@ import {
   hasSeenEnvelope,
   markEnvelopeSeen,
   resetEnvelopeView,
+  clearGuestSession,
 } from '../api/client';
 
 export function useGuestSession() {
-  const [guest, setGuest] = useState(null);
+  const [guest, setGuest] = useState(() => getGuestSession());
   const [loading, setLoading] = useState(true);
-  const [envelopeSeen, setEnvelopeSeen] = useState(hasSeenEnvelope());
+  const [envelopeSeen, setEnvelopeSeen] = useState(() => hasSeenEnvelope());
 
   useEffect(() => {
     const session = getGuestSession();
@@ -26,8 +27,9 @@ export function useGuestSession() {
         saveGuestSession(data);
       })
       .catch(() => {
-        sessionStorage.clear();
+        clearGuestSession();
         setGuest(null);
+        setEnvelopeSeen(false);
       })
       .finally(() => setLoading(false));
   }, []);

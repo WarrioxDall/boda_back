@@ -4,8 +4,22 @@ const GUEST_ID_KEY = 'boda_guest_id';
 const GUEST_NAME_KEY = 'boda_guest_name';
 const ENVELOPE_SEEN_KEY = 'boda_envelope_seen';
 
+const storage = localStorage;
+
+function migrateSessionToLocal() {
+  for (const key of [GUEST_ID_KEY, GUEST_NAME_KEY, ENVELOPE_SEEN_KEY]) {
+    const sessionVal = sessionStorage.getItem(key);
+    if (sessionVal && !storage.getItem(key)) {
+      storage.setItem(key, sessionVal);
+    }
+    sessionStorage.removeItem(key);
+  }
+}
+
+migrateSessionToLocal();
+
 function getHeaders() {
-  const guestId = sessionStorage.getItem(GUEST_ID_KEY);
+  const guestId = storage.getItem(GUEST_ID_KEY);
   return guestId ? { 'X-Guest-Id': guestId } : {};
 }
 
@@ -32,28 +46,34 @@ async function request(url, options = {}) {
 }
 
 export function saveGuestSession(guest) {
-  sessionStorage.setItem(GUEST_ID_KEY, String(guest.id));
-  sessionStorage.setItem(GUEST_NAME_KEY, guest.nombre);
+  storage.setItem(GUEST_ID_KEY, String(guest.id));
+  storage.setItem(GUEST_NAME_KEY, guest.nombre);
 }
 
 export function getGuestSession() {
-  const id = sessionStorage.getItem(GUEST_ID_KEY);
-  const nombre = sessionStorage.getItem(GUEST_NAME_KEY);
+  const id = storage.getItem(GUEST_ID_KEY);
+  const nombre = storage.getItem(GUEST_NAME_KEY);
   if (!id) return null;
   return { id: Number(id), nombre };
 }
 
+export function clearGuestSession() {
+  storage.removeItem(GUEST_ID_KEY);
+  storage.removeItem(GUEST_NAME_KEY);
+  storage.removeItem(ENVELOPE_SEEN_KEY);
+}
+
 export function markEnvelopeSeen() {
-  sessionStorage.setItem(ENVELOPE_SEEN_KEY, 'true');
+  storage.setItem(ENVELOPE_SEEN_KEY, 'true');
 }
 
 export function hasSeenEnvelope() {
-  return sessionStorage.getItem(ENVELOPE_SEEN_KEY) === 'true';
+  return storage.getItem(ENVELOPE_SEEN_KEY) === 'true';
 }
 
 /** Temporal: volver a la pantalla del sobre sin cerrar sesión del invitado */
 export function resetEnvelopeView() {
-  sessionStorage.removeItem(ENVELOPE_SEEN_KEY);
+  storage.removeItem(ENVELOPE_SEEN_KEY);
 }
 
 export function validateGuest(nombre) {
