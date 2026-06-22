@@ -15,7 +15,7 @@ function PhotoShade({ className = '' }) {
   );
 }
 
-function PhotoButton({ src, className, imgClassName = '', onOpen }) {
+function PhotoButton({ src, className, imgClassName = '', onOpen, eager = false }) {
   return (
     <button
       type="button"
@@ -27,7 +27,9 @@ function PhotoButton({ src, className, imgClassName = '', onOpen }) {
         src={src}
         alt=""
         className={`rounded-xl shadow-[0_8px_32px_rgba(61,53,48,0.22)] opacity-90 transition group-hover:opacity-100 ${imgClassName}`}
-        loading="lazy"
+        loading={eager ? 'eager' : 'lazy'}
+        fetchPriority={eager ? 'high' : 'auto'}
+        decoding="async"
       />
       <PhotoShade />
       <span className="pointer-events-none absolute inset-0 flex items-end justify-center rounded-xl bg-gradient-to-t from-black/25 to-transparent pb-2 opacity-70 transition lg:opacity-0 lg:group-hover:opacity-100">
@@ -67,6 +69,7 @@ export function MobilePhotoStrip({ onPhotoOpen }) {
           onOpen={onPhotoOpen}
           className="h-40 w-32 shrink-0 md:h-48 md:w-36"
           imgClassName="h-full w-full object-cover shadow-lg"
+          eager
         />
       ))}
     </div>
