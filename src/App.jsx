@@ -11,8 +11,10 @@ export default function App() {
   const [phase, setPhase] = useState('intro');
 
   useEffect(() => {
+    // Solo al volver a entrar (fase intro): ir directo a invitación.
+    // No pisar 'reveal' cuando acaban de abrir el sobre.
     if (!loading && guest && envelopeSeen) {
-      setPhase('invitation');
+      setPhase((current) => (current === 'intro' ? 'invitation' : current));
     }
   }, [loading, guest, envelopeSeen]);
 
